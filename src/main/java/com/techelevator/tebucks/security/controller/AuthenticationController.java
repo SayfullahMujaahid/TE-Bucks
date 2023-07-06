@@ -2,6 +2,7 @@ package com.techelevator.tebucks.security.controller;
 
 import com.techelevator.tebucks.exception.DaoException;
 import com.techelevator.tebucks.money.dao.AccountDao;
+import com.techelevator.tebucks.money.dao.JdbcAccountDao;
 import com.techelevator.tebucks.money.model.Account;
 import com.techelevator.tebucks.security.dao.UserDao;
 import com.techelevator.tebucks.security.jwt.TokenProvider;
@@ -65,7 +66,13 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public User register(@Valid @RequestBody RegisterUserDto newUser) {
-        return userDao.createUser(newUser);
+        User user = userDao.createUser(newUser);
+        accountDao.createAccount(user);
+        return user;
+
+
+
+        //user newUser to create account
     }
 
 
