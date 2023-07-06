@@ -1,23 +1,22 @@
 package com.techelevator.tebucks.money.model;
 
-import javax.validation.constraints.NotEmpty;
-
 public class Account {
 
     private int accountId;
 
     private int userId;
+    private final double INITIAL_BALANCE = 1000;
     private double balance;
-
 
     public Account() {
 
     }
 
-    public Account(int accountId, int userId, double balance) {
+    public Account(int accountId, int userId) {
         this.accountId = accountId;
         this.userId = userId;
-        this.balance = balance;
+        balance = INITIAL_BALANCE;
+
 
     }
 
@@ -38,7 +37,7 @@ public class Account {
     }
 
     public double getBalance() {
-        return balance;
+        return balance ;
     }
 
     public void setBalance(double balance) {

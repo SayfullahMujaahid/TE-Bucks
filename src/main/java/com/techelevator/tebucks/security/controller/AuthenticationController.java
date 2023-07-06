@@ -22,7 +22,6 @@ import java.security.Principal;
 /**
  * Controller to authenticate users.
  */
-@PreAuthorize("isAuthenticated()")
 @RestController
 public class AuthenticationController {
 
@@ -69,11 +68,7 @@ public class AuthenticationController {
         return userDao.createUser(newUser);
     }
 
-    @RequestMapping(path = "/api/account/balance", method = RequestMethod.GET)
-    public Account getBalance(Principal principal) {
-        String userName = principal.getName();
-        return accountDao.getAccountByUserName(userName);
-    }
+
 
 }
 
