@@ -1,0 +1,28 @@
+CREATE TABLE transactions (
+	transaction_id serial PRIMARY KEY,
+	user_from varchar(50) NOT NULL,
+	user_to varchar(50) NOT NULL,
+	amount integer NOT NULL,
+	transaction_time timestamp DEFAULT(current_timestamp) NOT NULL
+	
+	
+);
+CREATE TABLE account_transactions (
+	account_id integer NOT NULL references accounts(account_id),
+	transaction_id integer NOT NULL references transactions(transaction_id),
+	constraint pk_account_transactions primary key (account_id, transaction_id)
+	
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
