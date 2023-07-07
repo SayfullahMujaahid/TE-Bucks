@@ -7,6 +7,9 @@ public class NewTransferDto {
     private double amount;
     private String transferType;
 
+    public NewTransferDto() {
+        
+    }
     public NewTransferDto(int userFrom, int userTo, double amount, String transferType) {
         this.userFrom = userFrom;
         this.userTo = userTo;
