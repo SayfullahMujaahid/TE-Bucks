@@ -7,4 +7,6 @@ public interface AccountDao {
 
     Account getAccountByUserName(String userName);
     Account createAccount(User user);
+    Account getAccountByUserId(int userId);
+    Account updateAccountBalance(int user_id, double amountToAdd);
 }

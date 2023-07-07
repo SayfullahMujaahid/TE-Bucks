@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class User {
 
-   @JsonIgnore
+
    private int id;
    private String username;
    @JsonIgnore

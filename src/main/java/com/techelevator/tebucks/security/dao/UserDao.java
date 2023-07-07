@@ -6,6 +6,7 @@ import com.techelevator.tebucks.security.model.User;
 import java.util.List;
 
 public interface UserDao {
+    User getUserById(int userId);
 
     User getUserByUsername(String username);
 
