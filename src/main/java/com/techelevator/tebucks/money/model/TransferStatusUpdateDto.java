@@ -7,6 +7,7 @@ public class TransferStatusUpdateDto {
     public TransferStatusUpdateDto(String transferStatus) {
         this.transferStatus = transferStatus;
     }
+    public TransferStatusUpdateDto(){}
 
     public String getTransferStatus() {
         return transferStatus;
