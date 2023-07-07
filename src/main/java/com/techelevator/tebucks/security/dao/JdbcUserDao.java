@@ -24,7 +24,7 @@ public class JdbcUserDao implements UserDao {
 
     public User getUserById(int userId) {
         User user = null;
-        String sql = "SELECT user_id, username, password_hash, first_name, last_name, email FROM users WHERE user_id = ?";
+        String sql = "SELECT user_id, username, p   assword_hash, first_name, last_name, email FROM users WHERE user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -80,6 +80,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
+        // Try not to use * in your DAOs!!
         String sql = "select * from users";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
@@ -93,7 +94,7 @@ public class JdbcUserDao implements UserDao {
         return users;
     }
 
-    private User mapRowToUser(SqlRowSet rs) {
+    public User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
