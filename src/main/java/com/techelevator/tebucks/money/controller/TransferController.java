@@ -69,7 +69,7 @@ public class TransferController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Try Again");
             }
 
-        } else if (transferUsername.equals(principal.getName())) {
+        } else if (!transferUsername.equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Try Again");
         }
         return transferDao.createTransfer(newTransferDto);
@@ -97,12 +97,9 @@ public class TransferController {
             // Check if account that recieved the send, has enough money to give it back
 
 
-        if(incomingTransferType.equals("Request") && incomingTransferStatus.equals("Rejected")){
+        if(incomingTransferType.equals("Request") && incomingTransferStatus.equals("Reject")){
             transferDao.updateStatus(statusToUpdate, id);
-        }
-
-
-        if(incomingTransferType.equals("Request") && incomingTransferStatus.equals("Approved")){
+        } else if (incomingTransferType.equals("Request") && incomingTransferStatus.equals("Approve")){
             if (isThereEnoughMoney) {
                 transferDao.updateStatus(statusToUpdate, id);
                 accountDao.updateAccountBalance(sender_id, -transferAmount);
