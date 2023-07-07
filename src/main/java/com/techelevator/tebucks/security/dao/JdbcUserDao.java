@@ -24,7 +24,7 @@ public class JdbcUserDao implements UserDao {
 
     public User getUserById(int userId) {
         User user = null;
-        String sql = "SELECT user_id, username, p   assword_hash, first_name, last_name, email FROM users WHERE user_id = ?";
+        String sql = "SELECT user_id, username, password_hash, first_name, last_name, email FROM users WHERE user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
