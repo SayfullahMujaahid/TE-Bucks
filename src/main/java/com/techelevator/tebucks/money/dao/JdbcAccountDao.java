@@ -26,7 +26,7 @@ public class JdbcAccountDao implements AccountDao {
 
 
     public Account getAccountByUserId(int userId) {
-        if (userId < 0) throw new IllegalArgumentException("User Id cannot be empty");
+        if (userId <= 0) throw new IllegalArgumentException("User Id cannot be empty");
         Account account = null;
         String sql = "Select *  from account where user_id = ?";
 
