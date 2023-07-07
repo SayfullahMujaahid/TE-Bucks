@@ -2,6 +2,7 @@ package com.techelevator.tebucks.money.dao;
 
 import com.techelevator.tebucks.exception.DaoException;
 import com.techelevator.tebucks.money.model.Account;
+import com.techelevator.tebucks.money.model.NewTransferDto;
 import com.techelevator.tebucks.money.model.Transfer;
 import com.techelevator.tebucks.security.model.RegisterUserDto;
 import com.techelevator.tebucks.security.model.User;
@@ -21,6 +22,22 @@ public class JdbcAccountDao implements AccountDao {
 
     public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+
+    public Account getAccountByUserId(int userId) {
+        if (userId < 0) throw new IllegalArgumentException("User Id cannot be empty");
+        Account account = null;
+        String sql = "Select *  from account where user_id = ?";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            if (results.next()) {
+                account = mapRowToAccount(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } return account;
     }
 
     @Override
@@ -70,6 +87,20 @@ public class JdbcAccountDao implements AccountDao {
         } catch (DataIntegrityViolationException e) {
         throw new DaoException("Data integrity violation", e);
         } return newAccount;
+    }
+
+    public Account updateAccountBalance(int user_id, double amountToAdd) {
+        Account updatedAccount = null;
+        String sql = "update account set balance = balance + ? where user_id = ?;";
+        try {
+            jdbcTemplate.update(sql, amountToAdd, user_id);
+            updatedAccount = getAccountByUserId(user_id);
+            } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return updatedAccount;
     }
 
     private Account mapRowToAccount(SqlRowSet rs) {
