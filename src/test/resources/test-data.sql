@@ -34,7 +34,7 @@ CREATE TABLE transfer
     transfer_status character varying(50) NOT NULL,
     CONSTRAINT transfer_pkey PRIMARY KEY (transfer_id),
     CONSTRAINT transfer_user_from_fkey FOREIGN KEY (user_from_id) REFERENCES users (user_id),
-    CONSTRAINT transfer_user_to_fkey FOREIGN KEY (user_to_id) users (user_id)
+    CONSTRAINT transfer_user_to_fkey FOREIGN KEY (user_to_id) REFERENCES users (user_id),
     CONSTRAINT transfer_transfer_type_check CHECK (transfer_type::text = 'Send'::text OR transfer_type::text = 'Request'::text),
     CONSTRAINT transfer_transfer_status_check CHECK (transfer_status::text = 'Pending'::text OR transfer_status::text = 'Approved'::text OR transfer_status::text = 'Rejected'::text)
 );
@@ -44,7 +44,7 @@ CREATE TABLE account_transfer
     account_id integer NOT NULL,
     transfer_id integer NOT NULL,
     CONSTRAINT pk_account_transfer PRIMARY KEY (account_id, transfer_id),
-    CONSTRAINT account_transfer_account_id_fkey FOREIGN KEY (account_id) REFERENCES account (account_id)
+    CONSTRAINT account_transfer_account_id_fkey FOREIGN KEY (account_id) REFERENCES account (account_id),
     CONSTRAINT account_transfer_transfer_id_fkey FOREIGN KEY (transfer_id) REFERENCES transfer (transfer_id)
 );
 
