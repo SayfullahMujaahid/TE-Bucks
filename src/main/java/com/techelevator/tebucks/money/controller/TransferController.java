@@ -5,6 +5,8 @@ import com.techelevator.tebucks.money.dao.TransferDao;
 import com.techelevator.tebucks.money.model.NewTransferDto;
 import com.techelevator.tebucks.money.model.Transfer;
 import com.techelevator.tebucks.money.model.TransferStatusUpdateDto;
+import com.techelevator.tebucks.money.model.TxLogDto;
+import com.techelevator.tebucks.money.services.LoggerService;
 import com.techelevator.tebucks.security.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +25,14 @@ public class TransferController {
     private final UserDao userDao;
     private final AccountDao accountDao;
     private final TransferDao transferDao;
+    private final LoggerService loggerService;
 
     @Autowired
-    public TransferController(UserDao userDao, AccountDao accountDao, TransferDao transferDao) {
+    public TransferController(UserDao userDao, AccountDao accountDao, TransferDao transferDao, LoggerService loggerService) {
         this.userDao = userDao;
         this.accountDao = accountDao;
         this.transferDao = transferDao;
+        this.loggerService = loggerService;
     }
 
     @RequestMapping(path = "/api/account/transfers", method = RequestMethod.GET)
@@ -58,6 +62,15 @@ public class TransferController {
 
         //transferUsername.equals(principal.getName()
 
+        if (newTransferDto.getAmount() > 1000) {
+            TxLogDto txLogDto = new TxLogDto("Amount greater than $1,000", userDao.getUserById(newTransferDto.getUserFrom()).getUsername(), userDao.getUserById(newTransferDto.getUserTo()).getUsername(), newTransferDto.getAmount());
+            loggerService.addLog(txLogDto);
+        }
+
+        if (senderAccountBalance < transferAmount) {
+            TxLogDto txLogDto = new TxLogDto("Attempt to overdraft", userDao.getUserById(newTransferDto.getUserFrom()).getUsername(), userDao.getUserById(newTransferDto.getUserTo()).getUsername(), newTransferDto.getAmount());
+            loggerService.addLog(txLogDto);
+        }
 
         if (newTransferDto.getTransferType().equals("Send")) {
             if ((senderAccountBalance >= transferAmount) && (transferAmount > 0) && (sender != receiver)) {
