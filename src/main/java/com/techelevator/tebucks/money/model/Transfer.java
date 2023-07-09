@@ -26,6 +26,15 @@ public class Transfer {
     public Transfer () {
 
     }
+
+    public Transfer(int transferId, String transferType, String transferStatus, double amount) {
+        this.account = account;
+        this.transferId = transferId;
+        this.transferType = transferType;
+        this.transferStatus = transferStatus;
+        this.amount = amount;
+    }
+
     @AssertTrue
     public boolean enoughMoney() {
         if (amount > account.getBalance()) {
