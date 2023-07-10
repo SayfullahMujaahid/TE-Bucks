@@ -1,5 +1,7 @@
 package com.techelevator.tebucks.money.model;
 
+import java.util.Objects;
+
 public class Account {
 
     private int accountId;
@@ -16,6 +18,13 @@ public class Account {
         this.accountId = accountId;
         this.userId = userId;
         balance = INITIAL_BALANCE;
+
+
+    }
+    public Account(int accountId, int userId, double balance) {
+        this.accountId = accountId;
+        this.userId = userId;
+        this.balance = balance;
 
 
     }
@@ -43,4 +52,6 @@ public class Account {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+
 }
